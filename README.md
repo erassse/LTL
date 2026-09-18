@@ -14,3 +14,6 @@ Upload the contents of this folder to the repository root and publish the `main`
 - `assets/`
 
 This public release keeps user data in the browser storage for the same site origin.
+
+
+Public 1.0 maintenance: first successful background-music start fades in over 2 seconds once per page load; Entertainment menu is marked BETA.

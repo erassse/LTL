@@ -4795,7 +4795,7 @@ async function playBackgroundMusicStable100(){
     const p=a.play();
     BACKGROUND_PLAY_PROMISE_193=Promise.resolve(p).then(()=>{
       BACKGROUND_STARTED_193=true;
-      if(!MUSIC_INTRO_DONE_196&&!MUSIC_INTRO_ACTIVE_196)fadeMusicIn196(a,v,1000);
+      if(!MUSIC_INTRO_DONE_196&&!MUSIC_INTRO_ACTIVE_196)fadeMusicIn196(a,v,2000);
       else a.volume=musicLevel198();
       return true;
     }).catch(()=>{BACKGROUND_STARTED_193=false;return false}).finally(()=>{BACKGROUND_PLAY_PROMISE_193=null});
@@ -4920,7 +4920,7 @@ soundCtx110=ensureUISoundContext100;
 function wakeLtlAudio100(){
   const c=ensureUISoundContext100();
   if(c&&c.state!=='running')try{c.resume().then(()=>syncSoundMaster191(true)).catch(()=>{})}catch{}
-  /* This call is idempotent while music is already playing: it never seeks/restarts. */
+  /* First successful user-activated start fades in once; later calls are idempotent and never seek/restart. */
   if(musicVolume192()>0){
     BACKGROUND_AUDIO_ARMED_192=true;
     playBackgroundMusicStable100().catch?.(()=>{});
@@ -4970,6 +4970,106 @@ catSound180=function(){
 };
 /* Prime immediately. The <link rel=preload> in index.html starts the same request even earlier. */
 preloadCatAudio100();
+
+/* ---------- Entertainment menu: public beta badge ---------- */
+function ensureFunBeta100(){
+  const fun=$('#v160FunBtn');if(!fun)return;
+  let badge=fun.querySelector('.fun-beta100');
+  if(!badge){
+    badge=document.createElement('span');badge.className='fun-beta100';badge.textContent='BETA';
+    const main=fun.querySelector('.menu-main');
+    if(main)main.insertAdjacentElement('afterend',badge);else fun.appendChild(badge);
+  }
+}
+const syncActionsBeta100Base=syncActions160;
+syncActions160=function(){const out=syncActionsBeta100Base();ensureFunBeta100();return out};
+const applyLanguageBeta100Base=applyLanguage;
+applyLanguage=function(){const out=applyLanguageBeta100Base();requestAnimationFrame(ensureFunBeta100);return out};
+requestAnimationFrame(ensureFunBeta100);
+
+/* ---------- 1.0 finishing fixes: Fun motion, tier exit motion, safe HTML export ---------- */
+function ensureFunTitleBeta100(){
+  const d=$('#tool140'),title=$('#tool140Title');if(!d||!title)return;
+  let badge=title.querySelector('.fun-title-beta100');
+  if(!badge){badge=document.createElement('span');badge.className='fun-title-beta100';badge.textContent='BETA';title.appendChild(badge)}
+}
+function animateFunOpen100(){
+  const d=$('#tool140');if(!d?.open)return;d.classList.add('fun-dialog100');ensureFunTitleBeta100();stableCancelAnim(d);
+  const a=d.animate([
+    {opacity:0,transform:'translateY(16px) scale(.965)',filter:'blur(8px)'},
+    {opacity:1,transform:'translateY(0) scale(1)',filter:'blur(0)'}
+  ],{duration:430,easing:STABLE_EASE,fill:'forwards'});d._stableAnimation=a;
+  a.finished.catch(()=>{}).finally(()=>{if(d._stableAnimation!==a)return;d._stableAnimation=null;d.style.opacity='';d.style.transform='';d.style.filter=''})
+}
+const openToolFunMotion100Base=openTool140;
+openTool140=function(title,sub,html){
+  const d=ensureTool140();d.classList.remove('fun-dialog100');
+  return openToolFunMotion100Base(title,sub,html)
+};
+const openFunMotion100Base=openFun160;
+openFun160=function(){
+  const out=openFunMotion100Base();
+  const d=$('#tool140');if(d){d.classList.add('fun-dialog100');ensureFunTitleBeta100();requestAnimationFrame(animateFunOpen100)}
+  return out
+};
+const closeToolFunMotion100Base=closeTool140;
+closeTool140=function(){
+  const d=$('#tool140');
+  if(!d?.open||!d.classList.contains('fun-dialog100'))return closeToolFunMotion100Base();
+  stableCancelAnim(d);
+  const a=d.animate([
+    {opacity:1,transform:'translateY(0) scale(1)',filter:'blur(0)'},
+    {opacity:0,transform:'translateY(11px) scale(.977)',filter:'blur(7px)'}
+  ],{duration:300,easing:'cubic-bezier(.4,0,.7,.2)',fill:'forwards'});d._stableAnimation=a;
+  const finish=()=>{
+    if(!d.open)return;if(d._stableAnimation===a)d._stableAnimation=null;try{d.close()}catch{}
+    d.style.opacity='';d.style.transform='';d.style.filter='';d.classList.remove('fun-dialog100');
+    const body=$('#tool140Body');if(body)body.innerHTML=''
+  };
+  a.finished.catch(()=>{}).finally(finish);
+  /* Safari can leave a dialog animation promise pending while the element is in the top layer. */
+  setTimeout(finish,340)
+};
+
+/* Tier editor now exits with the same dialog motion as the item editor. */
+$('#cancelTierBtn').onclick=()=>v28CloseDialog($('#tierDialog'));
+$('#tierForm').addEventListener('submit',e=>{
+  e.preventDefault();e.stopImmediatePropagation();
+  const l=active(),name=$('#tierName').value.trim(),color=$('#tierColor').value;if(!name)return;let createdId=null;
+  if(editingTierId){
+    const t=l.tiers.find(x=>x.id===editingTierId);if(t){t.name=name;t.color=color;if(pendingTierBg==='__CLEAR__'){t.bgMedia='';t.bgType='image';t.bgMime=''}else if(pendingTierBg){t.bgMedia=pendingTierBg.data;t.bgType=pendingTierBg.type;t.bgMime=pendingTierBg.mime}}
+  }else{
+    const id=crypto.randomUUID();createdId=id;l.tiers.push({id,name,color,bgMedia:pendingTierBg&&pendingTierBg!=='__CLEAR__'?pendingTierBg.data:'',bgType:pendingTierBg&&pendingTierBg!=='__CLEAR__'?pendingTierBg.type:'image',bgMime:pendingTierBg&&pendingTierBg!=='__CLEAR__'?pendingTierBg.mime:'',items:[]})
+  }
+  if(createdId)pendingEntrance={kind:'tier',id:createdId};queueSave();v28CloseDialog($('#tierDialog'),()=>render())
+},true);
+
+/* Safari-safe Shareable HTML: never clone a live playing audio element. */
+$('#portableBtn').onclick=async()=>{
+  await saveNow();motionHide($('#actionsMenu'));
+  const liveAudio=[...document.querySelectorAll('audio')];
+  const audioState=liveAudio.map(a=>({a,muted:a.muted,hadMuted:a.hasAttribute('muted')}));
+  let clone;
+  try{
+    liveAudio.forEach(a=>{try{a.muted=true;a.setAttribute('muted','')}catch{}});
+    clone=document.documentElement.cloneNode(true)
+  }finally{
+    audioState.forEach(({a,muted,hadMuted})=>{try{a.muted=muted;if(!hadMuted)a.removeAttribute('muted')}catch{}})
+  }
+  /* The exported runtime recreates its own music transport when opened. Keeping a
+     cloned live <audio> is what caused Safari to spawn a second full-volume track. */
+  clone.querySelectorAll('audio').forEach(a=>a.remove());
+  const boardClone=clone.querySelector('#board');if(boardClone)boardClone.innerHTML='';
+  const tabsClone=clone.querySelector('#listTabs');if(tabsClone)tabsClone.innerHTML='';
+  const notesClone=clone.querySelector('#notes');if(notesClone)notesClone.innerHTML='';
+  const unrankedClone=clone.querySelector('#unranked');if(unrankedClone)unrankedClone.innerHTML='';
+  const notesPopoverClone=clone.querySelector('#notesPopover');if(notesPopoverClone)notesPopoverClone.hidden=true;
+  clone.querySelector('#customizer')?.classList.remove('open');
+  const old=clone.querySelector('#portableState');if(old)old.remove();
+  const ps=document.createElement('script');ps.id='portableState';ps.type='application/json';ps.textContent=JSON.stringify(state).replace(/<\/script/gi,'<\\/script');
+  const main=[...clone.querySelectorAll('script')].find(x=>!x.id);if(main?.parentNode)main.parentNode.insertBefore(ps,main);
+  download('<!doctype html>\\n'+clone.outerHTML,`tier-list-portable-${stamp()}.html`,'text/html;charset=utf-8');showToast(tr('exportPortable'))
+};
 
 /* ---------- Public release branding ---------- */
 const syncBrand100Base=syncBrand180;
