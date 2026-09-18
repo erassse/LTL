@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<link id="ltlFaviconIco181" rel="icon" type="image/x-icon" href="./assets/favicon.ico?v=194">
+<link id="ltlFaviconPng181" rel="icon" type="image/png" sizes="64x64" href="./assets/favicon.png?v=194">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LTL</title>
+<!-- LTL_STATIC_FAVICON_180_START -->
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon.png?v=194" data-ltl-main-favicon="apple">
+<!-- LTL_STATIC_FAVICON_180_END -->
+
+<link rel="stylesheet" href="./styles/ltl.css?v=194">
+</head>
+<body>
+<div id="appBackground" aria-hidden="true"></div>
+<div class="file-drop-overlay" id="fileDropOverlay" aria-hidden="true"><div class="file-drop-card" id="fileDropText" data-i18n="dropFile"></div></div>
+<div class="app" id="appRoot">
+  <div class="topbar" data-no-export>
+    <div class="brand"><h1 id="appTitle">Tier List</h1><div class="sub" id="appSub" data-i18n="appSub"></div></div>
+    <div class="actions">
+      <button class="btn primary action-text" id="addItemBtn"><span data-i18n="add"></span></button>
+      <button class="btn action-text" id="addTierBtn"><span data-i18n="addTier"></span></button>
+      <button class="btn icon-only" id="notesBtn" data-i18n-title="notes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.5h11v15l-5.5-3.7-5.5 3.7z"/></svg></button>
+      <div class="search-control" id="searchControl">
+        <button class="btn icon-only" id="searchBtn" data-i18n-title="smartSearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 4.5 4.5"/></svg></button>
+        <div class="search-expand"><input class="search" id="searchInput" type="search" data-i18n-placeholder="search"></div>
+      </div>
+      <button class="btn icon-only" id="customizeBtn" data-i18n-title="customize"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 12a7.3 7.3 0 0 0-.08-1l2-1.55-2-3.46-2.42.98a8 8 0 0 0-1.72-1L14.4 3h-4.8l-.38 2.97a8 8 0 0 0-1.72 1L5.08 6l-2 3.46 2 1.55A7.3 7.3 0 0 0 5 12c0 .34.03.67.08 1l-2 1.55 2 3.46 2.42-.98a8 8 0 0 0 1.72 1L9.6 21h4.8l.38-2.97a8 8 0 0 0 1.72-1l2.42.98 2-3.46-2-1.55c.05-.33.08-.66.08-1z"/></svg></button>
+      <button class="btn icon-only" id="actionsBtn" data-i18n-title="actions"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+      <div class="actions-menu" id="actionsMenu" hidden>
+        <button id="backupBtn"><span class="menu-icon"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span><span data-i18n="exportBackup"></span></button>
+        <button id="importBtn"><span class="menu-icon"><svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="m7 14 5-5 5 5"/><path d="M5 3h14"/></svg></span><span data-i18n="importBackup"></span></button>
+        <div class="sep"></div>
+        <button id="pngBtn"><span class="menu-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m5 18 5-5 3 3 2-2 4 4"/></svg></span><span data-i18n="exportPng"></span></button>
+        <button id="portableBtn"><span class="menu-icon"><svg viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="m20 4-9 9"/><path d="M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5"/></svg></span><span><span class="menu-main" data-i18n="exportPortable"></span><span class="menu-sub" data-i18n="exportPortableHint"></span></span></button>
+      </div>
+      <input id="importFile" type="file" accept="application/json,.json" hidden>
+    </div>
+  </div>
+
+  <div class="tabsbar" id="listTabs" data-no-export></div>
+
+  <div class="customizer" id="customizer" data-no-export>
+    <div class="customizer-tabs">
+      <button class="c-tab active" data-panel="layout" data-i18n="tabLayout"></button>
+      <button class="c-tab" data-panel="items" data-i18n="tabItems"></button>
+      <button class="c-tab" data-panel="appearance" data-i18n="tabAppearance"></button>
+      <button class="c-tab" data-panel="media" data-i18n="tabMedia"></button>
+      <button class="c-tab" data-panel="list" data-i18n="tabList"></button>
+    </div>
+
+    <div class="c-panel active" data-panel-content="layout">
+      <div class="c-panel-head"><div><h3 data-i18n="layoutTitle"></h3><p data-i18n="layoutDesc"></p></div></div>
+      <div class="grid">
+        <div class="setting-card"><div class="setting"><label><span data-i18n="tierHeight"></span><span class="value" id="tierHeightV"></span></label><input id="tierHeight" type="range" min="70" max="260" step="2"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="labelWidth"></span><span class="value" id="labelWidthV"></span></label><input id="labelWidth" type="range" min="60" max="220" step="2"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="rowPadding"></span><span class="value" id="rowPaddingV"></span></label><input id="rowPadding" type="range" min="0" max="18" step="1"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="cardGap"></span><span class="value" id="cardGapV"></span></label><input id="cardGap" type="range" min="0" max="18" step="1"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="boardGap"></span><span class="value" id="boardGapV"></span></label><input id="boardGap" type="range" min="0" max="18" step="1"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="tierRadius"></span><span class="value" id="tierRadiusV"></span></label><input id="tierRadius" type="range" min="0" max="18" step="1"></div></div>
+        <div class="setting-card"><div class="setting inline"><label for="mergeTierCorners" data-i18n="mergeTierCorners"></label><input id="mergeTierCorners" type="checkbox"></div><div class="hint" data-i18n="mergeTierCornersHint"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="tierLabelSize"></span><span class="value" id="tierLabelSizeV"></span></label><input id="tierLabelSize" type="range" min="12" max="64" step="1"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="tierPanelOpacity"></span><span class="value" id="tierPanelOpacityV"></span></label><input id="tierPanelOpacity" type="range" min="0" max="1" step="0.02"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="tierPanelBlur"></span><span class="value" id="tierPanelBlurV"></span></label><input id="tierPanelBlur" type="range" min="0" max="30" step="1"></div></div>
+        <div class="setting-card"><div class="setting inline"><label for="linkAuxPanels" data-i18n="linkAuxPanels"></label><input id="linkAuxPanels" type="checkbox"></div><div class="hint" data-i18n="linkAuxPanelsHint"></div></div>
+      </div>
+      <div class="panel-actions"><button class="btn small" id="compactBtn" data-i18n="compact"></button><button class="btn small" id="classicBtn" data-i18n="classic"></button><button class="btn small" id="largeBtn" data-i18n="large"></button></div>
+    </div>
+
+    <div class="c-panel" data-panel-content="items">
+      <div class="c-panel-head"><div><h3 data-i18n="itemsTitle"></h3><p data-i18n="itemsDesc"></p></div></div>
+      <div class="grid">
+        <div class="setting-card"><div class="setting"><label><span data-i18n="posterRatio"></span></label><select id="posterRatio"><option value="0.7142857">2:2.8</option><option value="0.6666667">2:3</option><option value="0.75">3:4</option><option value="1">1:1</option><option value="1.7777778">16:9</option></select></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="cardRadius"></span><span class="value" id="cardRadiusV"></span></label><input id="cardRadius" type="range" min="0" max="24" step="1"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="overlayDark"></span><span class="value" id="overlayDarkV"></span></label><input id="overlayDark" type="range" min="0" max="0.8" step="0.02"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="overlayBlur"></span><span class="value" id="overlayBlurV"></span></label><input id="overlayBlur" type="range" min="0" max="8" step="0.5"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="titleSize"></span><span class="value" id="titleSizeV"></span></label><input id="titleSize" type="range" min="9" max="22" step="1"></div></div>
+        
+      </div>
+      <div class="hint" data-i18n="itemsHint"></div>
+    </div>
+
+    <div class="c-panel" data-panel-content="appearance">
+      <div class="c-panel-head"><div><h3 data-i18n="appearanceTitle"></h3><p data-i18n="appearanceDesc"></p></div></div>
+      <div class="grid">
+        <div class="setting-card"><div class="setting"><label><span data-i18n="baseTheme"></span></label><select id="themePreset"><option value="dark" data-i18n="themeDark"></option><option value="light" data-i18n="themeLight"></option><option value="custom">Custom</option></select></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="bgColor"></span></label><input id="bgColor" type="color"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="panelColor"></span></label><input id="panelColor" type="color"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="textColor"></span></label><input id="textColor" type="color"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="lineColor"></span></label><input id="lineColor" type="color"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="accentColor"></span></label><input id="accentColor" type="color"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="uiFont"></span></label><select id="uiFont"><option value="system" data-i18n="fontSystem"></option><option value="arial">Arial</option><option value="georgia">Georgia</option><option value="mono" data-i18n="fontMono"></option><option value="rounded" data-i18n="fontRounded"></option><option value="avenir">Avenir Next</option><option value="futura">Futura</option><option value="palatino">Palatino</option><option value="trebuchet">Trebuchet MS</option></select></div></div>
+      </div>
+    </div>
+
+    <div class="c-panel" data-panel-content="media">
+      <div class="c-panel-head"><div><h3 data-i18n="mediaTitle"></h3><p data-i18n="mediaDesc"></p></div></div>
+      <div class="grid">
+        <div class="setting-card"><div class="setting"><label><span data-i18n="listBackground"></span></label><input id="appBgFile" type="file" accept="image/*,video/*,.png,.jpg,.jpeg,.jfif,.webp,.gif,.bmp,.svg,.avif,.heic,.heif,.mp4,.m4v,.mov,.webm,.ogv,.ogg,.avi,.mkv"></div></div>
+        <div class="setting-card"><div class="setting inline"><label data-i18n="clearBackground"></label><button class="btn small" id="clearAppBg" data-i18n="clear"></button></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="videoBehavior"></span></label><select id="videoMode"><option value="loop" data-i18n="videoLoop"></option><option value="hover" data-i18n="videoHover"></option><option value="poster" data-i18n="videoPoster"></option></select></div><div class="hint" data-i18n="videoBehaviorHint"></div></div>
+        <input id="stretchMedia" type="checkbox" hidden aria-hidden="true">
+        <div class="setting-card"><div class="setting inline"><label for="stretchCards" id="stretchCardsLabel">Растягивать медиа в карточках</label><input id="stretchCards" type="checkbox"></div><div class="hint" id="stretchCardsHint">Деформирует изображение или видео только внутри item-карточек.</div></div>
+        <div class="setting-card"><div class="setting inline"><label for="stretchListBackground" id="stretchListBackgroundLabel">Растягивать фон тир-листа</label><input id="stretchListBackground" type="checkbox"></div><div class="hint" id="stretchListBackgroundHint">Деформирует только общий фон текущего тир-листа.</div></div>
+        <div class="setting-card"><div class="setting inline"><label for="stretchTierBackgrounds" id="stretchTierBackgroundsLabel">Растягивать фоны тиров</label><input id="stretchTierBackgrounds" type="checkbox"></div><div class="hint" id="stretchTierBackgroundsHint">Деформирует только медиа, назначенное фоном цветного tier-label.</div></div>
+        <div class="setting-card"><div class="setting inline"><label for="allowLargeFiles" data-i18n="allowLargeFiles"></label><input id="allowLargeFiles" type="checkbox"></div><div class="hint" data-i18n="largeFilesHint"></div></div>
+      </div>
+      <div class="media-support"><span class="media-chip">PNG</span><span class="media-chip">JPEG</span><span class="media-chip">WebP</span><span class="media-chip">GIF</span><span class="media-chip">AVIF</span><span class="media-chip">SVG</span><span class="media-chip">MP4</span><span class="media-chip">WebM</span><span class="media-chip">MOV</span><span class="media-chip" data-i18n="browserFormats"></span></div>
+      <div class="hint" style="margin-top:8px" data-i18n="codecHint"></div>
+    </div>
+
+    <div class="c-panel" data-panel-content="list">
+      <div class="c-panel-head"><div><h3 data-i18n="listTitle"></h3><p data-i18n="listDesc"></p></div></div>
+      <div class="settings-section"><div class="settings-section-title" data-i18n="listSettings"></div><div class="grid">
+        <div class="setting-card"><div class="setting"><label><span data-i18n="currentList"></span></label><input id="listName" type="text" maxlength="60"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="listDescription"></span></label><textarea id="listDescription" maxlength="2000" data-i18n-placeholder="descriptionPlaceholder"></textarea></div></div>
+      </div><div class="panel-actions"><button class="btn small" id="renameListBtn" data-i18n="saveListInfo"></button><button class="btn small" id="duplicateListBtn" data-i18n="duplicateList"></button><button class="btn small" id="deleteListBtn" data-i18n="deleteList"></button></div></div>
+      <div class="settings-section"><div class="settings-section-title" data-i18n="appSettings"></div><div class="grid"><div class="setting-card"><div class="setting"><label><span data-i18n="language"></span></label><select id="language"><option value="ru">Русский</option><option value="en">English</option></select></div></div></div></div>
+      <div class="settings-section" id="shortcutSettingsSection"><div class="settings-section-title" id="shortcutSettingsTitle">Горячие клавиши</div><div class="grid shortcut-grid">
+        <div class="setting-card"><div class="setting"><label id="shortcutAddLabel">Добавить item</label><input class="shortcut-input" id="shortcutAdd" type="text" maxlength="18" autocomplete="off"></div></div>
+        <div class="setting-card"><div class="setting"><label id="shortcutTierLabel">Добавить tier</label><input class="shortcut-input" id="shortcutTier" type="text" maxlength="18" autocomplete="off"></div></div>
+        <div class="setting-card"><div class="setting"><label id="shortcutNotesLabel">Notes</label><input class="shortcut-input" id="shortcutNotes" type="text" maxlength="18" autocomplete="off"></div></div>
+        <div class="setting-card"><div class="setting"><label id="shortcutSearchLabel">Поиск</label><input class="shortcut-input" id="shortcutSearch" type="text" maxlength="18" autocomplete="off"></div></div>
+        <div class="setting-card"><div class="setting"><label id="shortcutCustomizeLabel">Настройки</label><input class="shortcut-input" id="shortcutCustomize" type="text" maxlength="18" autocomplete="off"></div></div>
+        <div class="setting-card"><div class="setting"><label id="shortcutFocusLabel">Режим просмотра</label><input class="shortcut-input" id="shortcutFocus" type="text" maxlength="18" autocomplete="off"></div></div>
+        <div class="setting-card"><div class="setting"><label id="shortcutCommandLabel">Command Center</label><input class="shortcut-input" id="shortcutCommand" type="text" maxlength="18" autocomplete="off"></div></div>
+        <div class="setting-card"><div class="setting"><label id="shortcutUndoLabel">Undo</label><input class="shortcut-input" id="shortcutUndo" type="text" maxlength="18" autocomplete="off"></div></div>
+        <div class="setting-card"><div class="setting"><label id="shortcutRedoLabel">Redo</label><input class="shortcut-input" id="shortcutRedo" type="text" maxlength="18" autocomplete="off"></div></div>
+      </div><div class="panel-actions"><button class="btn small" id="resetShortcutsBtn" type="button">Сбросить хоткеи</button></div><div class="hint" id="shortcutHint">Примеры: A, /, Ctrl+K, Ctrl+Shift+Z. Ctrl автоматически работает как ⌘ на macOS.</div></div>
+      <div class="settings-section"><div class="settings-section-title" data-i18n="historyTitle"></div><div class="grid">
+        <div class="setting-card history-card190"><div class="setting"><label><span data-i18n="historyUndoRedo"></span></label><div class="history-buttons"><button class="btn small" id="undoBtn" data-i18n="undo"></button><button class="btn small" id="redoBtn" data-i18n="redo"></button></div></div><div class="hint" data-i18n="historyHint"></div></div>
+        <div class="setting-card"><div class="setting"><label><span data-i18n="snapshots"></span></label><select id="snapshotSelect"></select></div><div class="snapshot-actions"><button class="btn small" id="snapshotCreateBtn" data-i18n="snapshotCreate"></button><button class="btn small" id="snapshotRestoreBtn" data-i18n="snapshotRestore"></button><button class="btn small" id="snapshotDeleteBtn" data-i18n="snapshotDelete"></button></div><div class="hint" data-i18n="snapshotsHint"></div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="list-description" id="listDescriptionView" hidden></div>
+  <span class="status" id="saveStatus" hidden></span>
+
+  <div class="popover" id="notesPopover" hidden><div class="notes-wrap" id="notesWrap">
+    <div class="notes-head" id="notesDragHandle"><div><h2 data-i18n="notesTitle"></h2><div class="status" data-i18n="notesSub"></div></div></div>
+    <div class="notes-zone" id="notes"></div>
+  </div></div>
+
+  <div class="parts-popover" id="partsPopover" hidden>
+    <div class="parts-head">
+      <div class="parts-head-copy"><div class="parts-head-title" data-i18n="partsTitle"></div><div class="parts-parent" id="partsParentName"></div></div>
+      <button class="btn icon-only" id="partsCloseBtn" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="parts-list" id="partsList"></div>
+    <div class="parts-foot"><button class="btn primary small" id="addPartBtn" type="button" data-i18n="addPart"></button></div>
+  </div>
+
+  <div class="parts-hover-preview" id="partsHoverPreview" hidden>
+    <div class="parts-hover-head"><div class="parts-hover-kicker" data-i18n="partsTitle"></div><div class="parts-hover-parent" id="partsHoverParent"></div></div>
+    <div class="parts-hover-list" id="partsHoverList"></div>
+  </div>
+
+  <div class="board" id="board"></div>
+  <div class="unranked-wrap"><div class="section-title"><h2 data-i18n="unranked"></h2><span class="status" data-i18n="unrankedSub"></span></div><div class="unranked" id="unranked"></div></div>
+  <div class="footer" data-no-export data-i18n="footer"></div>
+</div>
+
+<dialog id="itemDialog"><form method="dialog" class="modal" id="itemForm"><h3 id="itemDialogTitle"></h3><div class="field"><label data-i18n="itemName"></label><input id="itemTitle" type="text" maxlength="160" required></div><input id="itemAliases" type="hidden" value=""><div class="field"><label id="itemDescriptionLabel">Description</label><textarea id="itemDescription" maxlength="3000" placeholder=""></textarea></div><div class="field"><label data-i18n="itemMedia"></label><input id="itemMedia" type="file" accept="image/*,video/*,.png,.jpg,.jpeg,.jfif,.webp,.gif,.bmp,.svg,.avif,.heic,.heif,.mp4,.m4v,.mov,.webm,.ogv,.ogg,.avi,.mkv"></div><div class="field" id="destinationField"><label data-i18n="addTo"></label><select id="itemDestination"><option value="unranked" data-i18n="unranked"></option><option value="notes" data-i18n="notesTitle"></option></select></div><div class="preview" id="mediaPreviewWrap" hidden></div><div class="modal-actions"><button class="btn" type="button" id="cancelItemBtn" data-i18n="cancel"></button><button class="btn primary" type="submit" data-i18n="save"></button></div></form></dialog>
+
+<dialog id="partDialog"><form method="dialog" class="modal" id="partForm"><h3 id="partDialogTitle"></h3><div class="field"><label data-i18n="partName"></label><input id="partName" type="text" maxlength="160" required></div><div class="field"><label data-i18n="partRating"></label><input id="partRating" type="text" maxlength="30" data-i18n-placeholder="partRatingPlaceholder"></div><div class="field"><label data-i18n="partNote"></label><textarea id="partNote" maxlength="1000" data-i18n-placeholder="partNotePlaceholder"></textarea></div><div class="field"><label data-i18n="partMedia"></label><input id="partMedia" type="file" accept="image/*,video/*,.png,.jpg,.jpeg,.jfif,.webp,.gif,.bmp,.svg,.avif,.heic,.heif,.mp4,.m4v,.mov,.webm,.ogv,.ogg,.avi,.mkv"></div><div class="preview" id="partPreviewWrap" hidden></div><div class="modal-actions"><button class="btn" type="button" id="cancelPartBtn" data-i18n="cancel"></button><button class="btn primary" type="submit" data-i18n="save"></button></div></form></dialog>
+
+<dialog id="tierDialog"><form method="dialog" class="modal" id="tierForm"><h3 data-i18n="tierDialogTitle"></h3><div class="field"><label data-i18n="name"></label><input id="tierName" type="text" maxlength="50" required></div><div class="split"><div class="field"><label data-i18n="color"></label><input id="tierColor" type="color"></div><div class="field"><label data-i18n="tierBackground"></label><input id="tierBg" type="file" accept="image/*,video/*,.png,.jpg,.jpeg,.jfif,.webp,.gif,.bmp,.svg,.avif,.heic,.heif,.mp4,.m4v,.mov,.webm,.ogv,.ogg,.avi,.mkv"></div></div><div class="field inline"><button class="btn small" type="button" id="clearTierBg" data-i18n="clearTierBackground"></button></div><div class="modal-actions"><button class="btn" type="button" id="cancelTierBtn" data-i18n="cancel"></button><button class="btn primary" type="submit" data-i18n="save"></button></div></form></dialog>
+
+<dialog id="listDialog"><form method="dialog" class="modal" id="listForm"><h3 data-i18n="newList"></h3><div class="field"><label data-i18n="name"></label><input id="newListName" type="text" maxlength="60" required data-i18n-placeholder="newListPlaceholder"></div><div class="modal-actions"><button class="btn" type="button" id="cancelListBtn" data-i18n="cancel"></button><button class="btn primary" type="submit" data-i18n="create"></button></div></form></dialog>
+<div class="export-progress" id="exportProgress" hidden><div class="export-progress-card"><div class="export-progress-title" data-i18n="pngPreparing"></div><div class="export-progress-text" id="exportProgressText"></div><div class="progress-track"><div class="progress-fill" id="exportProgressFill"></div></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="./scripts/ltl.js?v=194"></script>
+<!-- LTL 1.9.4 GitHub Pages build. -->
+</body>
+</html>
