@@ -2142,3 +2142,282 @@ button:focus,button:focus-visible,
 /* LTL 1.9.2 — add-card custom destination dropdown */
 #destinationField .ui-select102{width:100%;max-width:none}
 #destinationField .ui-select102-btn{width:100%;min-height:42px;justify-content:space-between}
+
+
+/* ============================================================
+   LTL 1.9.5 — radius consistency + evidence board
+   ============================================================ */
+/* Customizer controls inherit the same interface radius instead of fixed pills. */
+.customizer .c-tab,
+.customizer .btn,
+.customizer .ui-select102-btn,
+.customizer .stretch-media-trigger,
+.customizer input[type="text"],
+.customizer textarea,
+.customizer input[type="file"]::file-selector-button,
+.toast{
+  border-radius:var(--uiRadius)!important;
+}
+/* Keep menus visually related, but not more rounded than the interface. */
+.customizer .ui-select102-option,.customizer .stretch-media-option{border-radius:var(--uiRadius)!important}
+
+/* Lower notifications follow the global corner radius too. */
+.toast{overflow:hidden}
+
+/* Empty-state icon: an SVG gives identical dash lengths and a mathematically centered +. */
+.empty::before{
+  content:""!important;width:22px!important;height:22px!important;flex:0 0 22px!important;border:0!important;border-radius:0!important;opacity:.78!important;
+  background:center/22px 22px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Crect x='1' y='1' width='20' height='20' rx='4' fill='none' stroke='%239aa3b2' stroke-width='1.2' stroke-dasharray='2.7 2.7' stroke-linecap='round'/%3E%3Cpath d='M11 7v8M7 11h8' fill='none' stroke='%239aa3b2' stroke-width='1.25' stroke-linecap='round'/%3E%3C/svg%3E")!important;
+}
+
+/* Evidence-board easter egg. */
+#creditsEaster195{position:fixed;inset:0;z-index:1000200;background:rgba(3,4,7,.93);opacity:0;transition:opacity .34s cubic-bezier(.16,1,.3,1);overflow:hidden;user-select:none}
+#creditsEaster195.open195{opacity:1}
+#creditsEaster195.closing195{pointer-events:none}
+.evidence-board195{position:absolute;inset:20px;overflow:hidden;border:1px solid color-mix(in srgb,var(--line) 72%,white 8%);border-radius:var(--uiRadius);background:radial-gradient(circle at 48% 42%,rgba(255,255,255,.035),transparent 42%),linear-gradient(135deg,rgba(255,255,255,.018),transparent 45%),#090b10;box-shadow:inset 0 0 100px rgba(0,0,0,.5),0 30px 110px rgba(0,0,0,.62)}
+.evidence-board195::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.13;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 4px);mix-blend-mode:soft-light}
+.evidence-threads195{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible;pointer-events:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.9))}
+.evidence-thread195{stroke:rgba(255,255,255,.82);stroke-width:1.35;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.evidence-item195{position:absolute;z-index:20;min-width:150px;min-height:110px;overflow:hidden;background:#0d1016;border:1px solid rgba(255,255,255,.19);border-radius:calc(var(--uiRadius)*.72);box-shadow:0 22px 58px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.035);cursor:grab;touch-action:none;transform:rotate(var(--evidence-rot,0deg));transform-origin:center;will-change:left,top,width,height,transform;z-index:3}
+.evidence-item195:active{cursor:grabbing}
+.evidence-media195{display:block;width:100%;height:100%;object-fit:contain;background:#050608;pointer-events:none}
+.evidence-item195 video.evidence-media195{pointer-events:auto;object-fit:contain}
+.evidence-resize195{position:absolute;right:5px;bottom:5px;width:18px;height:18px;z-index:6;cursor:nwse-resize;border-right:1.5px solid rgba(255,255,255,.8);border-bottom:1.5px solid rgba(255,255,255,.8);opacity:.72;touch-action:none}
+.credits-easter-close195{position:fixed;right:30px;top:30px;z-index:1000300;width:38px;height:38px;padding:0;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--text) 20%,transparent);border-radius:var(--uiRadius)!important;background:color-mix(in srgb,var(--panel) 90%,#000 10%);color:var(--text);box-shadow:0 12px 34px rgba(0,0,0,.48);cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.credits-easter-close195:hover{border-color:var(--accent);background:color-mix(in srgb,var(--panel) 84%,var(--accent) 16%)}
+.credits-easter-close195:active{transform:scale(.95)}
+.credits-easter-close195 svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+
+@media(max-width:760px){.evidence-board195{inset:10px}.credits-easter-close195{right:18px;top:18px}.evidence-item195{min-width:120px;min-height:90px}}
+
+
+/* ============================================================
+   LTL 1.9.6 — transparent evidence overlay / transform handles
+   ============================================================ */
+#creditsEaster196{position:fixed;inset:0;z-index:1000400;overflow:hidden;opacity:0;background:rgba(4,5,8,.20);-webkit-backdrop-filter:blur(16px) saturate(82%);backdrop-filter:blur(16px) saturate(82%);transition:opacity .32s cubic-bezier(.16,1,.3,1);user-select:none}
+#creditsEaster196.open196{opacity:1}
+#creditsEaster196.closing196{pointer-events:none}
+.evidence-stage196{position:absolute;inset:0;overflow:hidden}
+.evidence-threads196{position:absolute;inset:0;width:100%;height:100%;z-index:1;overflow:visible;pointer-events:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.9))}
+.evidence-thread196{stroke:rgba(255,255,255,.86);stroke-width:1.35;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.evidence-item196{position:absolute;z-index:40;overflow:visible;touch-action:none;transform:rotate(var(--evidence-rot196,0deg));transform-origin:center;will-change:left,top,width,height,transform}
+.evidence-frame196{position:absolute;inset:0;overflow:hidden;border:1px solid rgba(255,255,255,.22);border-radius:max(2px,calc(var(--uiRadius)*.72));background:#050608;box-shadow:0 24px 62px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.04);cursor:grab}
+.evidence-frame196:active{cursor:grabbing}
+.evidence-media196{display:block;width:100%;height:100%;object-fit:contain;background:#050608}
+img.evidence-media196{pointer-events:none}
+video.evidence-media196{pointer-events:auto}
+.evidence-resize196{position:absolute;right:-9px;bottom:-9px;width:22px;height:22px;z-index:8;cursor:nwse-resize;touch-action:none;opacity:.72}
+.evidence-resize196::before{content:"";position:absolute;right:3px;bottom:3px;width:10px;height:10px;border-right:1.5px solid rgba(255,255,255,.95);border-bottom:1.5px solid rgba(255,255,255,.95)}
+.evidence-rotate196{position:absolute;right:-17px;top:-25px;width:30px;height:30px;z-index:9;display:grid;place-items:center;color:rgba(255,255,255,.92);cursor:grab;touch-action:none;opacity:.16;transition:opacity .16s ease,transform .16s ease;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8))}
+.evidence-item196:hover .evidence-rotate196{opacity:.78}.evidence-rotate196:hover{opacity:1!important;transform:scale(1.06)}.evidence-rotate196:active{cursor:grabbing}
+.evidence-rotate196 svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.evidence-fullscreen196{position:absolute;left:7px;top:7px;z-index:10;width:30px;height:30px;padding:0;display:grid;place-items:center;border:1px solid rgba(255,255,255,.20);border-radius:max(3px,calc(var(--uiRadius)*.65));background:rgba(9,11,16,.70);color:#fff;opacity:0;cursor:pointer;transition:opacity .16s ease,background .16s ease,border-color .16s ease;backdrop-filter:blur(7px)}
+.evidence-item196:hover .evidence-fullscreen196,.evidence-fullscreen196:focus-visible{opacity:1}.evidence-fullscreen196:hover{background:rgba(18,22,31,.92);border-color:rgba(255,255,255,.48)}
+.evidence-fullscreen196 svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.credits-easter-close196{position:fixed;right:30px;top:30px;z-index:1000500;width:38px;height:38px;padding:0;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--text) 20%,transparent);border-radius:var(--uiRadius)!important;background:color-mix(in srgb,var(--panel) 90%,#000 10%);color:var(--text);box-shadow:0 12px 34px rgba(0,0,0,.48);cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.credits-easter-close196:hover{border-color:var(--accent);background:color-mix(in srgb,var(--panel) 84%,var(--accent) 16%)}.credits-easter-close196:active{transform:scale(.95)}
+.credits-easter-close196 svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.evidence-item196:fullscreen{left:0!important;top:0!important;width:100vw!important;height:100vh!important;transform:none!important;background:#000!important;z-index:2147483647!important}
+.evidence-item196:fullscreen .evidence-frame196{inset:0;border:0;border-radius:0;box-shadow:none;background:#000;cursor:default}
+.evidence-item196:fullscreen .evidence-media196{width:100%;height:100%;object-fit:contain;background:#000}
+.evidence-item196:fullscreen .evidence-resize196,.evidence-item196:fullscreen .evidence-rotate196{display:none!important}
+.evidence-item196:fullscreen .evidence-fullscreen196{opacity:1;left:18px;top:18px}
+@media(max-width:760px){.credits-easter-close196{right:18px;top:18px}.evidence-fullscreen196{opacity:.68}.evidence-rotate196{opacity:.55}}
+
+/* ============================================================
+   LTL 1.9.7 — evidence overlay interaction polish
+   ============================================================ */
+#creditsEaster197{position:fixed;inset:0;z-index:1000600;overflow:hidden;opacity:0;background:rgba(4,5,8,.18);-webkit-backdrop-filter:blur(16px) saturate(84%);backdrop-filter:blur(16px) saturate(84%);transition:opacity .32s cubic-bezier(.16,1,.3,1);user-select:none}
+#creditsEaster197.open197{opacity:1}
+#creditsEaster197.closing197{pointer-events:none}
+.evidence-stage197{position:absolute;inset:0;overflow:hidden}
+.evidence-threads197{position:absolute;inset:0;width:100%;height:100%;z-index:1;overflow:visible;pointer-events:none;opacity:.92;transition:opacity .28s ease;filter:drop-shadow(0 2px 3px rgba(0,0,0,.72))}
+.evidence-thread197{fill:none;stroke:var(--accent);stroke-width:1.55;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.88}
+#creditsEaster197.has-fullscreen197 .evidence-threads197{opacity:0}
+.evidence-item197{position:absolute;z-index:60;overflow:visible;touch-action:none;transform-origin:center;will-change:left,top,width,height,transform,opacity}
+.evidence-frame197{position:absolute;inset:0;overflow:hidden;border:1px solid color-mix(in srgb,var(--text) 20%,transparent);border-radius:var(--uiRadius)!important;background:#050608;box-shadow:0 24px 62px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.035);cursor:grab;transition:border-radius .18s ease,box-shadow .25s ease}
+.evidence-frame197:active{cursor:grabbing}
+.evidence-media197{display:block;width:100%;height:100%;object-fit:contain;background:#050608;-webkit-user-drag:none;user-select:none}
+img.evidence-media197{pointer-events:none}
+video.evidence-media197{pointer-events:none;cursor:grab}
+video.evidence-media197::-webkit-media-controls{display:none!important}
+.evidence-resize197{position:absolute;right:-9px;bottom:-9px;width:24px;height:24px;z-index:15;cursor:nwse-resize;touch-action:none;opacity:.68;transition:opacity .15s ease,transform .15s ease}
+.evidence-item197:hover .evidence-resize197{opacity:1}.evidence-resize197:hover{transform:scale(1.08)}
+.evidence-resize197::before{content:"";position:absolute;right:3px;bottom:3px;width:11px;height:11px;border-right:1.6px solid color-mix(in srgb,var(--accent) 78%,white 22%);border-bottom:1.6px solid color-mix(in srgb,var(--accent) 78%,white 22%)}
+.evidence-rotate197{position:absolute;right:-18px;top:-32px;width:34px;height:34px;padding:0;z-index:16;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--text) 18%,transparent);border-radius:var(--uiRadius)!important;background:color-mix(in srgb,var(--panel) 82%,#000 18%);color:var(--text);cursor:grab;touch-action:none;opacity:.30;transition:opacity .16s ease,transform .16s ease,border-color .16s ease,background .16s ease;filter:drop-shadow(0 3px 7px rgba(0,0,0,.72))}
+.evidence-item197:hover .evidence-rotate197{opacity:.82}.evidence-rotate197:hover{opacity:1!important;transform:scale(1.06);border-color:var(--accent);background:color-mix(in srgb,var(--panel) 78%,var(--accent) 22%)}.evidence-rotate197:active{cursor:grabbing}
+.evidence-rotate197 svg,.evidence-fullscreen197 svg,.evidence-player-btn197 svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.evidence-fullscreen197{position:absolute;left:8px;top:8px;z-index:17;width:32px;height:32px;padding:0;display:grid;place-items:center;border:1px solid rgba(255,255,255,.20);border-radius:var(--uiRadius)!important;background:rgba(9,11,16,.72);color:#fff;opacity:0;cursor:pointer;transition:opacity .16s ease,background .16s ease,border-color .16s ease,transform .16s ease;backdrop-filter:blur(7px)}
+.evidence-item197:hover .evidence-fullscreen197,.evidence-fullscreen197:focus-visible,.evidence-item197.is-fullscreen197 .evidence-fullscreen197{opacity:1}.evidence-fullscreen197:hover{background:color-mix(in srgb,#111620 80%,var(--accent) 20%);border-color:var(--accent);transform:scale(1.04)}
+.evidence-item197 .video-fullscreen197{display:none}
+.credits-easter-close197{position:fixed;right:30px;top:30px;z-index:1000800;width:40px;height:40px;padding:0;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--text) 20%,transparent);border-radius:var(--uiRadius)!important;background:color-mix(in srgb,var(--panel) 90%,#000 10%);color:var(--text);box-shadow:0 12px 34px rgba(0,0,0,.48);cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.credits-easter-close197:hover{border-color:var(--accent);background:color-mix(in srgb,var(--panel) 82%,var(--accent) 18%)}.credits-easter-close197:active{transform:scale(.95)}
+.credits-easter-close197 svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+/* Custom video controls: native browser controls are deliberately disabled. */
+.evidence-player197{position:absolute;left:8px;right:8px;bottom:8px;z-index:20;min-height:38px;padding:5px 7px;display:grid;grid-template-columns:30px minmax(30px,1fr) auto 30px 30px;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.16);border-radius:var(--uiRadius)!important;background:rgba(7,9,13,.78);color:#fff;box-shadow:0 8px 28px rgba(0,0,0,.34);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:.82;transition:opacity .18s ease,background .18s ease}
+.evidence-item197:hover .evidence-player197,.evidence-item197.is-fullscreen197 .evidence-player197{opacity:1}
+.evidence-player-btn197{width:30px;height:30px;padding:0;display:grid;place-items:center;border:1px solid transparent;border-radius:var(--uiRadius)!important;background:transparent;color:#fff;cursor:pointer;transition:background .15s ease,border-color .15s ease,transform .12s ease}
+.evidence-player-btn197:hover{background:color-mix(in srgb,var(--accent) 22%,rgba(255,255,255,.08));border-color:color-mix(in srgb,var(--accent) 55%,transparent)}.evidence-player-btn197:active{transform:scale(.94)}
+.evidence-progress197{width:100%;min-width:0;height:18px;margin:0;accent-color:var(--accent);cursor:pointer}
+.evidence-time197{font-size:10px;font-variant-numeric:tabular-nums;white-space:nowrap;color:rgba(255,255,255,.78);pointer-events:none}
+.evidence-item197.is-fullscreen197{z-index:1000750!important}
+.evidence-item197.is-fullscreen197 .evidence-frame197{cursor:default;box-shadow:0 34px 110px rgba(0,0,0,.68)}
+.evidence-item197.is-fullscreen197 .evidence-resize197,.evidence-item197.is-fullscreen197 .evidence-rotate197{opacity:0!important;pointer-events:none!important}
+#creditsEaster197.has-fullscreen197 .evidence-item197:not(.is-fullscreen197){opacity:.08!important;filter:blur(3px);pointer-events:none}
+#creditsEaster197.has-fullscreen197::after{content:"";position:absolute;inset:0;z-index:50;background:rgba(0,0,0,.38);pointer-events:none}
+#creditsEaster197.has-fullscreen197 .evidence-item197.is-fullscreen197,#creditsEaster197.has-fullscreen197 .credits-easter-close197{position:absolute;z-index:1000750}
+@media(max-width:760px){.credits-easter-close197{right:18px;top:18px}.evidence-fullscreen197{opacity:.72}.evidence-rotate197{opacity:.62}.evidence-player197{left:5px;right:5px;bottom:5px;grid-template-columns:28px minmax(50px,1fr) 28px 28px;gap:4px;padding:4px}.evidence-time197{display:none}.evidence-player-btn197{width:28px;height:28px}}
+
+
+/* ============================================================
+   LTL 1.9.8 — evidence transitions / player volume / centered controls
+   ============================================================ */
+#creditsEaster197.easter198{opacity:0;background:rgba(4,5,8,.12);-webkit-backdrop-filter:blur(0px) saturate(100%);backdrop-filter:blur(0px) saturate(100%);transition:opacity .56s cubic-bezier(.16,1,.3,1),background .56s cubic-bezier(.16,1,.3,1),-webkit-backdrop-filter .56s cubic-bezier(.16,1,.3,1),backdrop-filter .56s cubic-bezier(.16,1,.3,1)}
+#creditsEaster197.easter198.open198{opacity:1;background:rgba(4,5,8,.18);-webkit-backdrop-filter:blur(16px) saturate(84%);backdrop-filter:blur(16px) saturate(84%)}
+.evidence-item197{transition:opacity .46s cubic-bezier(.16,1,.3,1),filter .46s cubic-bezier(.16,1,.3,1)}
+#creditsEaster197::after{content:"";position:absolute;inset:0;z-index:1000700;background:rgba(0,0,0,0);opacity:0;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);pointer-events:none;transition:opacity .46s cubic-bezier(.16,1,.3,1),background .46s cubic-bezier(.16,1,.3,1),-webkit-backdrop-filter .46s cubic-bezier(.16,1,.3,1),backdrop-filter .46s cubic-bezier(.16,1,.3,1)}
+#creditsEaster197.has-fullscreen197::after{z-index:1000700;opacity:1;background:rgba(0,0,0,.30);-webkit-backdrop-filter:blur(9px) saturate(72%);backdrop-filter:blur(9px) saturate(72%)}
+#creditsEaster197.has-fullscreen197 .evidence-item197:not(.is-fullscreen197){opacity:.58!important;filter:none;pointer-events:none}
+#creditsEaster197.has-fullscreen197 .evidence-threads197{opacity:.28;filter:blur(1.5px) drop-shadow(0 2px 3px rgba(0,0,0,.72))}
+#creditsEaster197 .evidence-item197.is-fullscreen197,#creditsEaster197 .credits-easter-close197{z-index:1000750}
+#creditsEaster197 .credits-easter-close197{z-index:1000800}
+.evidence-player197.evidence-player198{grid-template-columns:30px minmax(80px,1fr) auto 30px minmax(54px,78px) 30px;gap:5px}
+.evidence-volume198{width:100%;min-width:54px;height:18px;margin:0;padding:0;accent-color:var(--accent);cursor:pointer}
+.evidence-player-btn197,.evidence-fullscreen197,.evidence-rotate197,.credits-easter-close197{line-height:0;font-size:0;align-items:center;justify-items:center;text-align:center}
+.evidence-player-btn197 svg,.evidence-fullscreen197 svg,.evidence-rotate197 svg,.credits-easter-close197 svg{display:block;margin:0;transform:none;flex:none}
+.evidence-player-full197 svg,.evidence-fullscreen197 svg{width:16px;height:16px}
+@media(max-width:760px){.evidence-player197.evidence-player198{grid-template-columns:28px minmax(54px,1fr) 28px minmax(46px,62px) 28px}.evidence-time197{display:none}.evidence-volume198{min-width:46px}}
+
+.evidence-frame197{container-type:inline-size}
+@container (max-width:360px){.evidence-player197.evidence-player198{left:5px;right:5px;bottom:5px;grid-template-columns:28px minmax(38px,1fr) 28px 48px 28px;gap:3px;padding:4px}.evidence-time197{display:none}.evidence-player-btn197{width:28px;height:28px}.evidence-volume198{min-width:40px}}
+
+
+/* ============================================================
+   LTL 1.9.9 — smooth evidence strings + reset control
+   ============================================================ */
+#creditsEaster197.easter199 .evidence-threads197{opacity:.92;transition:opacity .52s cubic-bezier(.16,1,.3,1),filter .52s cubic-bezier(.16,1,.3,1);will-change:opacity,filter}
+#creditsEaster197.easter199 .evidence-threads197.threads-hidden199{opacity:0!important}
+#creditsEaster197.easter199.has-fullscreen197 .evidence-threads197{opacity:0!important;filter:blur(2px) drop-shadow(0 2px 3px rgba(0,0,0,.72))}
+.evidence-thread199{opacity:.88;transition:opacity .34s ease;will-change:d,opacity}
+.easter-controls199{position:fixed;right:30px;top:30px;z-index:1000800;display:flex;align-items:center;gap:8px}
+.easter-controls199 .credits-easter-close197{position:static;right:auto;top:auto;z-index:auto}
+.easter-reset199{width:40px;height:40px;padding:0;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--text) 20%,transparent);border-radius:var(--uiRadius)!important;background:color-mix(in srgb,var(--panel) 90%,#000 10%);color:var(--text);box-shadow:0 12px 34px rgba(0,0,0,.48);cursor:pointer;line-height:0;font-size:0;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.easter-reset199:hover{border-color:var(--accent);background:color-mix(in srgb,var(--panel) 82%,var(--accent) 18%)}.easter-reset199:active{transform:scale(.95)}
+.easter-reset199 svg{display:block;width:17px;height:17px;margin:0;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#creditsEaster197.easter199.has-fullscreen197 .easter-controls199{z-index:1000800}
+@media(max-width:760px){.easter-controls199{right:18px;top:18px}}
+
+
+/* ============================================================
+   LTL 1.0 — public release evidence polish
+   ============================================================ */
+#creditsEaster197.easter100 .evidence-threads197{
+  filter:blur(1.45px) drop-shadow(0 2px 3px rgba(0,0,0,.72))!important;
+  transition:opacity .52s cubic-bezier(.16,1,.3,1),filter .52s cubic-bezier(.16,1,.3,1)!important;
+}
+#creditsEaster197.easter100.has-fullscreen197 .evidence-threads197{
+  opacity:0!important;
+  filter:blur(1.45px) drop-shadow(0 2px 3px rgba(0,0,0,.72))!important;
+}
+#creditsEaster197.easter100:not(.has-fullscreen197) .evidence-threads197:not(.threads-hidden199){opacity:.92!important}
+#creditsEaster197.easter100 .evidence-thread197{filter:none!important}
+
+
+/* ============================================================
+   LTL 1.0 public maintenance — stable audio / evidence / minesweeper
+   ============================================================ */
+
+/* Every sweep/highlight of the shared button vocabulary is deliberately slower. */
+.btn::after,.icon-btn::after,.tab::after,.v25-command-item::after,.actions-menu button::after{
+  transition-duration:1440ms!important;
+}
+
+/* Safari can paint a native square under the rotate control unless appearance/clipping
+   are explicit. Keep every layer inside the current interface radius. */
+.evidence-rotate197{
+  -webkit-appearance:none!important;appearance:none!important;
+  overflow:hidden!important;isolation:isolate!important;
+  background-clip:padding-box!important;
+  outline:none!important;
+}
+.evidence-rotate197::before,.evidence-rotate197::after{content:none!important;display:none!important}
+.evidence-rotate197 svg{position:relative;z-index:2;pointer-events:none}
+
+/* Threads always keep the soft accent glow, but geometry itself is updated in JS
+   every animation frame so there is no end-of-animation teleport. */
+#creditsEaster197.easter100 .evidence-threads197{
+  filter:blur(1.45px) drop-shadow(0 2px 3px rgba(0,0,0,.72))!important;
+  will-change:opacity,filter!important;
+}
+#creditsEaster197.easter100 .evidence-thread197{filter:none!important}
+
+/* Easy keeps its existing proportions. Larger boards expand cleanly and can shrink
+   their cells when the viewport is the limiting dimension. */
+#mineDialog102{
+  box-sizing:border-box!important;
+  transition:width 560ms cubic-bezier(.16,1,.3,1),height 560ms cubic-bezier(.16,1,.3,1)!important;
+}
+#mineDialog102 .mine102{box-sizing:border-box!important}
+#mineDialog102 .mine102-board-wrap{
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+  flex:0 0 auto!important;
+  transition:width 560ms cubic-bezier(.16,1,.3,1),height 560ms cubic-bezier(.16,1,.3,1),border-color 520ms var(--v122-ease),box-shadow 700ms var(--v122-ease),background 700ms var(--v122-ease)!important;
+}
+#mineDialog102.mine-medium100{width:min(780px,calc(100vw - 28px))!important}
+#mineDialog102.mine-hard100{width:min(920px,calc(100vw - 28px))!important}
+#mineDialog102 .mine102-board{transform-origin:center;flex:none}
+
+
+/* LTL 1.0 — final Minesweeper proportional cell polish */
+.mine102-cell{
+  box-sizing:border-box!important;
+  display:grid!important;
+  place-items:center!important;
+  text-align:center!important;
+  font-family:var(--font)!important;
+  font-weight:700!important;
+  font-size:var(--mine-font,12px)!important;
+  line-height:1!important;
+}
+.mine102-cell.open{
+  transform:scale(1)!important;
+}
+.mine102-cell.flag,.mine102-cell.mine{
+  font-size:var(--mine-symbol,13px)!important;
+  line-height:1!important;
+}
+.mine102-cell .mine-flag-mark124{
+  display:grid!important;
+  place-items:center!important;
+  width:100%;height:100%;
+  font-size:1em!important;
+  line-height:1!important;
+}
+/* Every cell motion finishes in the same visual state that the static cell uses,
+   avoiding the old end-of-animation snap on smaller Hard cells. */
+@keyframes mineReveal130{
+  0%{opacity:.35;transform:scale(.80);filter:blur(calc(var(--mine-cell) * .04))}
+  58%{opacity:1;transform:scale(1.035);filter:blur(0)}
+  100%{opacity:1;transform:scale(1);filter:blur(0)}
+}
+@keyframes mineFlag130{
+  0%{opacity:0;transform:translateY(calc(var(--mine-cell) * -.36)) scale(.72) rotate(-8deg)}
+  58%{opacity:1;transform:translateY(calc(var(--mine-cell) * .07)) scale(1.10) rotate(2deg)}
+  78%{transform:translateY(calc(var(--mine-cell) * -.035)) scale(.98) rotate(0)}
+  100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}
+}
+@keyframes mineUnflag130{
+  from{opacity:1;transform:translateY(0) scale(1)}
+  to{opacity:0;transform:translateY(calc(var(--mine-cell) * -.24)) scale(.78)}
+}
+@keyframes minePop102{
+  0%{transform:scale(.68);opacity:.42}
+  100%{transform:scale(1);opacity:1}
+}
+/* Smoothly resize typography together with adaptive board cells. */
+.mine102-cell{
+  transition:background-color 220ms ease,border-color 220ms ease,color 180ms ease,
+             transform 260ms var(--viz130-ease),opacity 220ms ease,
+             font-size 420ms cubic-bezier(.16,1,.3,1)!important;
+}
